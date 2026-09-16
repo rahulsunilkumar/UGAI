@@ -1,0 +1,14 @@
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+qa/
+*.zip
+
+# Local CUI source and generated data. Already tracked files are unaffected.
+/UG.docx
+/UGAI_DOC.docx
+/UGAI_DOC.pdf
+/dist/content.js
+/dist/assets/screenshots/
+/dist/assets/source/
