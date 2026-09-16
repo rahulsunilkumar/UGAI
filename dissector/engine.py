@@ -39,9 +39,18 @@ def normalized(text):
 
 
 def atomic_json(path, value):
+    import time
     temp = path.with_suffix('.tmp')
     temp.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding='utf-8')
-    temp.replace(path)
+    # Windows-specific: retry on permission errors
+    for attempt in range(5):
+        try:
+            temp.replace(path)
+            break
+        except PermissionError:
+            if attempt == 4:
+                raise
+            time.sleep(0.05 * (attempt + 1))  # Exponential backoff
 
 
 def docx_headings(path):
