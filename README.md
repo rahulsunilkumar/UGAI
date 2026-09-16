@@ -69,3 +69,7 @@ The `dist/` directory is a static website with relative asset paths and hash-bas
 No publishing or Git push was performed for this draft. The source Word/PDF files were already tracked by Git when this draft was added. `.gitignore` excludes new generated content and source files by default, but does not remove already tracked files or protect repository history. Review repository access and tracked content before any push. Code and documentation also contain guide-specific terminology; the ignore rules are a convenience, not a classification boundary.
 
 All runtime assets are local. Screenshots load as needed, and the full PDF loads only when opened. The full `dist/` bundle is approximately 88 MiB; it includes the roughly 28 MiB source PDF.
+
+## Local document converter
+
+The separate [Guide Dissector](dissector/README.md) converts a PDF (optionally paired with Word) into reviewable Markdown and image assets. Run `bash dissector/run.command` and open `http://127.0.0.1:8770/`. Its local source files, saved edits, and exports live in `conversions/`.

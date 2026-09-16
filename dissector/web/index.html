@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Turn training documents into organized, editable Markdown. A local document review workspace.">
+<title>Guide Dissector</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="app-header">
+  <a href="#" class="brand" aria-label="Guide Dissector home"><span class="brand-mark">&gt;</span><span>Guide <strong>Dissector</strong></span></a>
+  <div class="header-center" id="project-name"></div>
+  <div class="header-actions"><span class="local"><i></i> Local workspace</span><span id="save-state" role="status"></span><button id="export-button" class="primary" hidden>Export package <span aria-hidden="true">↗</span></button></div>
+</header>
+<main id="home">
+  <div class="home-intro"><p class="eyebrow">DOCUMENTS, WITH STRUCTURE</p><h1>A clearer shape<br>for your training.</h1><p class="lede">Bring in a guide. Organize what matters.<br>Leave with content that’s ready for its next chapter.</p></div>
+  <section class="import-card" aria-labelledby="import-title">
+    <div class="section-label"><span class="number">01</span><span>Start a conversion</span></div>
+    <h2 id="import-title">One document. A useful starting point.</h2>
+    <label id="drop-zone" class="drop-zone" for="pdf-file">
+      <span class="document-icon" aria-hidden="true">↓</span>
+      <strong id="file-label">Drop your PDF here</strong><span id="file-description">or choose a file · up to 200 MB</span>
+      <input id="pdf-file" type="file" accept="application/pdf,.pdf">
+    </label>
+    <div class="word-row"><div><strong>Have the matching Word file?</strong><p>Optional. Its heading styles can improve the outline.</p></div><label class="secondary file-label" for="word-file" id="word-label">Add Word file<input id="word-file" type="file" accept=".docx"></label><button id="remove-word" class="quiet" hidden aria-label="Remove Word file">×</button></div>
+    <div class="import-footer"><p>Files stay on this computer.<br>No AI services or accounts required.</p><button class="primary" id="convert-button" disabled>Convert document <span aria-hidden="true">→</span></button></div>
+    <div id="upload-progress" hidden role="status"><div class="progress-track"><i></i></div><p>Copying your document into the local workspace…</p></div>
+  </section>
+  <section class="recent"><div class="section-heading"><h2>Your conversions</h2><span id="conversion-count"></span></div><div id="recent-list"></div></section>
+  <div class="process-notes"><div><span>01 / EXTRACT</span><h3>Preserve the source.</h3><p>Text, tables, and rendered illustrations retain their page references.</p></div><div><span>02 / REVIEW</span><h3>Give it a useful order.</h3><p>Edit sections beside the original. Uncertain material stays visible.</p></div><div><span>03 / EXPORT</span><h3>Keep your options open.</h3><p>Portable Markdown, images, and a manifest for a future guide builder.</p></div></div>
+  <footer><span>Guide Dissector · Local edition</span><span>Best with PDFs exported from Word. Scanned pages require manual transcription.</span></footer>
+</main>
+<main id="processing" hidden><p class="eyebrow">CONVERSION IN PROGRESS</p><h1>Making room<br>for the useful parts.</h1><p id="processing-file"></p><div class="progress-track"><i id="progress-fill"></i></div><div class="progress-caption"><strong id="processing-phase"></strong><span id="processing-count"></span></div><p class="muted">You can leave this screen while conversion continues.<br>Keep the local app running in your terminal.</p><button class="secondary" id="back-home">Back to conversions</button><div id="processing-error" hidden></div></main>
+<main id="workspace" hidden>
+  <aside class="outline-panel"><div class="outline-top"><p class="eyebrow">CONTENTS</p><h2>Shape the guide.</h2><input id="outline-search" type="search" placeholder="Find a section…" aria-label="Find a section"><div class="outline-filters"><button class="active" data-filter="all">All sections</button><button data-filter="review">To review <span id="review-count"></span></button></div></div><nav id="outline" aria-label="Document sections"></nav><div class="outline-bottom"><button id="document-settings" class="quiet">Document details <span>↗</span></button><p id="section-count"></p></div></aside>
+  <section class="editor-panel" aria-label="Section editor"><div class="editor-toolbar"><span class="eyebrow">EDITABLE CONTENT</span><div><button id="edit-tab" class="tab active">Markdown</button><button id="preview-tab" class="tab">Preview</button></div></div>
+    <div id="editor-content"><div class="section-meta"><select id="section-kind" aria-label="Section type"><option value="overview">Overview</option><option value="procedure">Procedure</option><option value="reference">Reference</option><option value="practice">Practice</option><option value="administration">Classroom material</option></select><span id="source-pages"></span><span id="excluded-badge" hidden>Excluded</span></div>
+    <label class="sr-only" for="section-title">Section title</label><textarea id="section-title" class="section-title" rows="2"></textarea>
+    <label class="group-field">In <input id="section-group" aria-label="Lesson or group" placeholder="Lesson or group"></label>
+    <details id="review-notes"><summary><span id="issue-count"></span> review notes</summary><ul id="issues"></ul></details>
+    <div class="editing-tools"><button id="split-button" class="quiet" title="Place the text cursor where a new section should begin">Split at cursor</button><button id="merge-button" class="quiet">Merge with next</button><span></span><button id="move-up" class="icon-button" aria-label="Move section up">↑</button><button id="move-down" class="icon-button" aria-label="Move section down">↓</button></div>
+    <label for="markdown" class="sr-only">Markdown content</label><textarea id="markdown" spellcheck="false"></textarea><article id="markdown-preview" class="markdown-view" hidden></article>
+    <div class="editor-footnote">### for step headings · ![caption](../assets/image.png) for images<br>Source references stay attached when you edit.</div>
+    </div>
+    <div class="review-bar"><button id="exclude-button" class="quiet">Exclude section</button><button id="review-button" class="primary">Mark reviewed <span>✓</span></button></div>
+  </section>
+  <aside class="source-panel" aria-label="Original PDF"><div class="source-toolbar"><div><span class="eyebrow">ORIGINAL PDF</span><span id="source-size"></span></div><div class="page-controls"><button id="previous-page" class="icon-button" aria-label="Previous source page">←</button><label class="sr-only" for="page-number">Source page</label><input id="page-number" type="number" min="1" value="1"><span id="total-pages"></span><button id="next-page" class="icon-button" aria-label="Next source page">→</button></div></div>
+    <div class="source-actions"><button id="crop-button" class="secondary">+ Capture illustration</button><button id="evidence-button" class="quiet">Extracted text</button><select id="source-zoom" aria-label="Zoom source page"><option value="100">Fit</option><option value="150">150%</option><option value="200">200%</option></select></div>
+    <div id="crop-help" hidden>Drag across the page to select an illustration, including its labels.<div><button class="primary" id="save-crop" disabled>Add to section</button><button class="secondary" id="whole-page">Use full page</button><button class="quiet" id="cancel-crop">Cancel</button></div></div>
+    <div class="page-scroll"><div id="page-stage"><img id="source-image" alt="Original source page" draggable="false"><div id="crop-selection" hidden></div></div><p id="page-error" hidden></p></div>
+    <div id="image-tray"><div class="tray-heading"><span class="eyebrow">SECTION ILLUSTRATIONS</span><span id="asset-count"></span></div><div id="asset-list"></div></div>
+  </aside>
+</main>
+<div id="toast" role="status" hidden></div>
+<dialog id="modal"><div id="modal-content"></div></dialog>
+<script src="app.js"></script>
+</body></html>

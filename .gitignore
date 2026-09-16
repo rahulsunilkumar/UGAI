@@ -12,3 +12,7 @@ qa/
 /dist/content.js
 /dist/assets/screenshots/
 /dist/assets/source/
+
+# Local Guide Dissector uploads, edits, page previews, and exports
+/conversions/
+/dissector/.venv/
